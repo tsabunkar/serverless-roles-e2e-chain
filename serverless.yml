@@ -1,0 +1,16 @@
+org: tsabunkar
+app: serverless-app-test
+service: serverless-roles-e2e-chain
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  function1:
+    handler: index.handler
+
+
+# Importing common.yml
+${file(./roles.yml)}
