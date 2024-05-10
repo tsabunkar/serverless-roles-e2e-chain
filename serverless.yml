@@ -1,16 +1,23 @@
 org: tsabunkar
 app: serverless-app-test
 service: serverless-roles-e2e-chain
-frameworkVersion: '3'
+frameworkVersion: "3"
+
+custom:
+  serviceName: ${self:service}
 
 provider:
   name: aws
   runtime: nodejs18.x
+  region: us-east-1
 
 functions:
   function1:
     handler: index.handler
+    environment:
+      MY_VARIABLE: myValue
+    policies:
+      - lambdaCloudWatchBasicExecution # You can also attach policies to lambda function
 
-
-# Importing common.yml
-${file(./roles.yml)}
+# Importing roles.yml
+resources: ${file(./roles.yml)}

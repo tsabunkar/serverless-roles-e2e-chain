@@ -1,24 +1,38 @@
-resources:
-  Resources:
-    myLambdaRole:
-      Type: AWS::IAM::Role
-      Properties:
-        RoleName: myLambdaRole
-        AssumeRolePolicyDocument:
-          Version: "2012-10-17"
-          Statement:
-            - Effect: Allow
-              Principal:
-                Service: lambda.amazonaws.com
-              Action: sts:AssumeRole
-        Policies:
-          - PolicyName: lambdaBasicExecution
-            PolicyDocument:
-              Version: "2012-10-17"
-              Statement:
-                - Effect: Allow
-                  Action:
-                    - logs:CreateLogGroup
-                    - logs:CreateLogStream
-                    - logs:PutLogEvents
-                  Resource: arn:aws:logs:*:*:*
+Resources:
+  myLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: serverless-app-test-dev-read-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: lambdaCloudWatchBasicExecution
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - lambda:GetFunction
+                  - lambda:GetFunctionConfiguration
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                  - logs:DescribeLogStreams
+                  - logs:GetLogEvents
+                  - logs:FilterLogEvents
+                  - logs:StartQuery
+                  - logs:StopQuery
+                  - logs:DescribeQueries
+                  - logs:GetLogGroupFields
+                  - logs:GetLogRecord
+                  - logs:GetQueryResults
+                # Resource: arn:aws:logs:*:*:*
+                Resource: arn:aws:logs:*:*:log-group:/aws/lambda/*
+                # Resource: arn:aws:lambda:us-east-1:494039644227:function:serverless-roles-e2e-chain-dev-function1
+                # Resource: .env.${stage}.serverlessRolese2eChainARN
+                # ${env:FUNC_PREFIX}  ${file(.env.${self:custom.stage})}
