@@ -16,8 +16,48 @@ functions:
     handler: index.handler
     environment:
       MY_VARIABLE: myValue
-    policies:
-      - lambdaCloudWatchBasicExecution # You can also attach policies to lambda function
+    # policies:
+    #   - lambdaCloudWatchLogsExecutionPolicy # You can also attach policies to lambda function
 
 # Importing roles.yml
-resources: ${file(./roles.yml)}
+# resources: ${file(./roles.yml)}
+resources:
+  Resources:
+    myLambdaRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: lambdaCloudWatchLogsExecutionRole
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service: lambda.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: lambdaCloudWatchLogsExecutionPolicy
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - lambda:GetFunction
+                    - lambda:GetFunctionConfiguration
+                    - logs:CreateLogGroup
+                    - logs:CreateLogStream
+                    - logs:PutLogEvents
+                    - logs:DescribeLogStreams
+                    - logs:GetLogEvents
+                    - logs:FilterLogEvents
+                    - logs:StartQuery
+                    - logs:StopQuery
+                    - logs:DescribeQueries
+                    - logs:GetLogGroupFields
+                    - logs:GetLogRecord
+                    - logs:GetQueryResults
+                  Resource: "*"
+                  # Resource: arn:aws:logs:*:*:*
+                  # Resource: arn:aws:logs:*:*:log-group:/aws/lambda/*
+                  # Resource: arn:aws:lambda:us-east-1:494039644227:function:serverless-roles-e2e-chain-dev-function1
+                  # Resource: .env.${stage}.serverlessRolese2eChainARN
+                  # ${env:FUNC_PREFIX}  ${file(.env.${self:custom.stage})}

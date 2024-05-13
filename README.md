@@ -72,7 +72,7 @@ Which should result in response similar to the following:
 
 ---
 
-# How to Create User in AWS and let this user login to AWS GUI (Concole)
+## How to Create User in AWS and let this user login to AWS GUI (Concole)
 
 - IAM > Users
 - User name : sita-dev
@@ -86,3 +86,23 @@ Which should result in response similar to the following:
     - Give a new password
   - Enable Console Access
 - Copy the Console password and Console Sing-in URL, username which will be used to login in AWS GUI/Console in different browser
+
+## Assigning users or groups to an existing role
+
+- Created IAM Role with Serverless framework -> ./roles.yml
+  - RoleName: serverless-app-test-dev-read-role
+    - PolicyName: lambdaCloudWatchBasicExecution (The above role has this policy)
+  - Thus role is attached with Policy, A role HAS-A policy (Role--12M-->Policy)
+- NOTE: To attach an AWS IAM role to an IAM user using the AWS CLI/Console, **you cannot directly attach a role to a user;** instead, you need to add the user to an IAM group that has permissions granted through a role.
+- Add the user: ram-dev > to IAM Group: junior-devs
+- NOTE: To attach an IAM role to an IAM group using the AWS CLI, **you typically don't directly attach a role to a group**. Instead, **you attach policies to the group or user**
+-
+
+## Command to deploy Serverless Framework application with a custom file name instead of serverless.yml
+
+- \$ serverless deploy --config custom-config.yml
+- \$ serverless deploy --config policy-attach-to-exisiting-group.yml
+
+## How to Create IAM Policy Specific to a IAM User Group
+
+- Check serverless --> ./policy-attach-to-exisiting-group.yml

@@ -1,0 +1,33 @@
+service: create-iam-policy-attach-to-exisiting-groupName
+
+provider:
+  name: aws
+
+resources:
+  Resources:
+    MyCustomPolicy:
+      Type: AWS::IAM::Policy
+      Properties:
+        PolicyName: CustomPolicyTest
+        Groups:
+          - junior-devs
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action:
+                - lambda:GetFunction
+                - lambda:GetFunctionConfiguration
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+                - logs:DescribeLogStreams
+                - logs:GetLogEvents
+                - logs:FilterLogEvents
+                - logs:StartQuery
+                - logs:StopQuery
+                - logs:DescribeQueries
+                - logs:GetLogGroupFields
+                - logs:GetLogRecord
+                - logs:GetQueryResults
+              Resource: "*"
